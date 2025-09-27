@@ -128,6 +128,13 @@ jobs:
       if: (!cancelled())
       run: df -hT
 
+    - name: Upload config file
+      uses: actions/upload-artifact@main
+      if: (!cancelled())
+      with:
+        name: OpenWrt_config${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+        path: openwrt/.config
+
     - name: Upload bin directory
       uses: actions/upload-artifact@main
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
