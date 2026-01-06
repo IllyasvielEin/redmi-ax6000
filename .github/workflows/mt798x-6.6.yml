@@ -156,7 +156,7 @@ jobs:
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
         echo "release_tag=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
-        touch cmcc-rax3000m-PASSWALL-adguard-smartDNS.txt
+        touch redmi-ax6000-passwall.txt
         [ ${UPLOAD_GOFILE} = true && ${{ steps.gofile.outputs.url }} ] && echo "🔗 [GoFile](${{ steps.gofile.outputs.url }})" >> release.txt
         echo "status=success" >> $GITHUB_OUTPUT
 
@@ -167,7 +167,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ steps.tag.outputs.release_tag }}
-        body_path: cmcc-rax3000m-PASSWALL-adguard-smartDNS.txt
+        body_path: redmi-ax6000-passwall.txt
         files: ${{ env.FIRMWARE }}/*
 
     - name: Delete workflow runs
