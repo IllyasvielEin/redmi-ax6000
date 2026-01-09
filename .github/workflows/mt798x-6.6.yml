@@ -33,11 +33,16 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
     - name: Checkout
       uses: actions/checkout@main
+
+    - name: Setup Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.24'
 
     - name: Initialization environment
       env:
@@ -105,6 +110,8 @@ jobs:
 
     - name: Download package
       id: package
+      env:
+        GOTOOLCHAIN: auto
       run: |
         cd openwrt
         make defconfig
@@ -114,6 +121,8 @@ jobs:
 
     - name: Compile the firmware
       id: compile
+      env:
+        GOTOOLCHAIN: auto
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
