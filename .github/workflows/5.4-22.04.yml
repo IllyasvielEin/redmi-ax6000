@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: mt798x-6.6
+name: 5.4-22.04
 on:
   repository_dispatch:
   workflow_dispatch:
@@ -20,10 +20,10 @@ on:
 
 env:
   REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-24.10
-  REPO_BRANCH: openwrt-24.10-6.6
+  REPO_BRANCH: 2410
   BRANCH_NAME: ImmortalWrt
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: mt798x-6.6.config
+  CONFIG_FILE: .config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
@@ -33,7 +33,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout
@@ -54,7 +54,7 @@ jobs:
         sudo -E apt-get -y install ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
         bzip2 ccache clang cmake cpio curl device-tree-compiler flex gawk gettext gcc-multilib g++-multilib \
         git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libfuse-dev libglib2.0-dev libgmp-dev \
-        libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libpython3-dev libreadline-dev \
+        libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libncursesw5-dev libpython3-dev libreadline-dev \
         libssl-dev libtool llvm lrzsz mkisofs msmtp ninja-build p7zip p7zip-full patch pkgconf python3 \
         python3-pyelftools python3-setuptools qemu-utils rsync scons squashfs-tools subversion swig texinfo \
         uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev
@@ -161,8 +161,8 @@ jobs:
       id: tag
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
-        touch redmi-ax6000-passwall.txt
+        echo "release_tag=5.4-$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
+        touch redmi-ax6000-5.4.txt
         [ ${UPLOAD_GOFILE} = true && ${{ steps.gofile.outputs.url }} ] && echo "🔗 [GoFile](${{ steps.gofile.outputs.url }})" >> release.txt
         echo "status=success" >> $GITHUB_OUTPUT
 
@@ -173,7 +173,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ steps.tag.outputs.release_tag }}
-        body_path: redmi-ax6000-passwall.txt
+        body_path: redmi-ax6000-5.4.txt
         files: ${{ env.FIRMWARE }}/*
 
     - name: Delete workflow runs
