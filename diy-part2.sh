@@ -21,6 +21,13 @@ sed -i 's/192.168.1.1/192.168.6.1/g' package/base-files/files/bin/config_generat
 sed -i 's/ImmortalWrt/Ruby6000/g' package/base-files/files/bin/config_generate
 
 # ===========================================
+# 3. 禁用 mosdns 相关包（Go 版本不兼容）
+# ===========================================
+sed -i 's/CONFIG_PACKAGE_mosdns=y/# CONFIG_PACKAGE_mosdns is not set/' .config
+sed -i 's/CONFIG_PACKAGE_luci-app-mosdns=y/# CONFIG_PACKAGE_luci-app-mosdns is not set/' .config
+sed -i 's/CONFIG_PACKAGE_mosdns-geodata=y/# CONFIG_PACKAGE_mosdns-geodata is not set/' .config
+
+# ===========================================
 # 以下为注释掉的可选配置，按需启用
 # ===========================================
 
